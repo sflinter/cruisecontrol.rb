@@ -49,8 +49,8 @@ Rails::Initializer.run do |config|
   config.frameworks -= [ :active_record, :active_resource ]
 
   # Add additional load paths for your own custom dirs
-  config.load_paths << "#{CRUISE_DATA_ROOT}/builder_plugins"
-  config.load_paths << "#{RAILS_ROOT}/lib/builder_plugins"
+  config.autoload_paths << "#{CRUISE_DATA_ROOT}/builder_plugins"
+  config.autoload_paths << "#{RAILS_ROOT}/lib/builder_plugins"
   
   config.after_initialize do
     require RAILS_ROOT + '/config/configuration'
