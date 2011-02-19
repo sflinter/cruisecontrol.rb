@@ -2,7 +2,9 @@ ENV["RAILS_ENV"] = "test"
 $:.unshift File.join(File.dirname(__FILE__), '..')
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'test_help'
+require 'test/unit'
 require 'mocha'
+
 require 'ostruct'
 
 $LOAD_PATH << File.dirname(__FILE__)

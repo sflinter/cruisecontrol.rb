@@ -15,6 +15,7 @@ ABSOLUTE_RAILS_ROOT = File.expand_path(RAILS_ROOT) unless defined? ABSOLUTE_RAIL
 Rails::Initializer.run do |config|
   # Settings in config/environments/* take precedence over those specified here
   config.gem "xml-simple", :lib => "xmlsimple"
+  config.gem "test-unit", :version => "~> 2.2.0", :lib => 'test/unit'
   config.gem "mocha", :version => "~> 0.9.12"
   config.gem "rcov" if RUBY_VERSION != '1.8.7' && RUBY_VERSION !~ /^1.9/
   
