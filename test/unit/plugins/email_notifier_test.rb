@@ -80,7 +80,7 @@ class EmailNotifierTest < Test::Unit::TestCase
     
     @notifier.emails = ['foo@crapty.com']
     
-    assert_raise_with_message(RuntimeError, 'oh noes!') do
+    assert_raise_with_message(RuntimeError, /oh noes!/, "") do
       @notifier.build_finished(failing_build)
     end
   end

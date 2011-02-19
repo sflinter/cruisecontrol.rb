@@ -30,7 +30,7 @@ class DurationFormatterTest < Test::Unit::TestCase
   end
 
   def test_raises_with_message_for_unknown_format
-    assert_raise_with_message(RuntimeError, "Unknown duration format :invalid_format") do
+    assert_raise_with_message(RuntimeError, /Unknown duration format :invalid_format/, "") do
       DurationFormatter.new(0).invalid_format
     end
   end

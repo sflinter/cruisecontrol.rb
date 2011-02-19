@@ -15,7 +15,7 @@ class Project
     end
     
     def create(project_name, scm, dir=CRUISE_DATA_ROOT + "/projects")
-      returning(Project.new(project_name, scm)) do |project|
+      Project.new(project_name, scm).tap do |project|
         raise "Project named #{project.name.inspect} already exists in #{dir}" if Project.all(dir).include?(project)
         begin
           save_project(project, dir)
@@ -33,7 +33,7 @@ class Project
     end
 
     def read(dir, load_config = true)
-      returning Project.new(File.basename(dir)) do |project|
+      Project.new(File.basename(dir)).tap do |project|
         self.current_project = project
         project.load_config if load_config
       end
@@ -54,7 +54,7 @@ class Project
     end
 
     def load_project(dir)
-      returning read(dir, load_config = false) do |project|
+      read(dir, load_config = false).tap do |project|
         project.path = dir
       end
     end
@@ -161,7 +161,7 @@ class Project
       raise "Cannot register an plugin with name #{plugin_name.inspect} " +
             "because another plugin, or a method with the same name already exists"
     end
-    self.metaclass.send(:define_method, plugin_name) { plugin }
+    self.singleton_class.send(:define_method, plugin_name) { plugin }
     plugin
   end
 

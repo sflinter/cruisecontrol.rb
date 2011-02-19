@@ -53,7 +53,7 @@ class TimeFormatterTest < Test::Unit::TestCase
 
   def test_raises_with_message_for_unknown_format
     time = Time.parse('2009-07-01 12:30:00')
-    assert_raise_with_message(RuntimeError, "Unknown time format :invalid_format") do
+    assert_raise_with_message(RuntimeError, /Unknown time format :invalid_format/, "") do
       TimeFormatter.new(time).invalid_format
     end
   end

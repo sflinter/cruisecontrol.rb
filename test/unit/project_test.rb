@@ -147,7 +147,7 @@ class ProjectTest < ActiveSupport::TestCase
       error = StandardError.new("something bad happened")
       @project.expects(:update_project_to_revision).raises(error)
 
-      assert_raise_with_message(StandardError, "something bad happened") do
+      assert_raise_with_message(StandardError, /something bad happened/, "") do
         @project.build(new_revision(5))
       end
       
@@ -230,7 +230,7 @@ class ProjectTest < ActiveSupport::TestCase
 
       @project.add_plugin listener
 
-      assert_raise_with_message(RuntimeError, 'Error in plugin Object: Listener failed') do
+      assert_raise_with_message(RuntimeError, /Error in plugin Object: Listener failed/, "") do
         @project.notify(:build_finished, mock_build)
       end
 
@@ -249,10 +249,10 @@ class ProjectTest < ActiveSupport::TestCase
 
       @project.add_plugin listener
 
-      assert_raise_with_message(RuntimeError, 'Error in plugin Object: Listener failed') do
+      assert_raise_with_message(RuntimeError, /Error in plugin Object: Listener failed/, "") do
         @project.notify(:sleeping)
       end
-      assert_raise_with_message(RuntimeError, 'Error in plugin Object: Listener failed with :foo') do
+      assert_raise_with_message(RuntimeError, /Error in plugin Object: Listener failed with :foo/, "") do
         @project.notify(:doing_something, :foo)
       end
     end
@@ -325,13 +325,13 @@ class ProjectTest < ActiveSupport::TestCase
   
   def test_either_rake_task_or_build_command_can_be_set_but_not_both
     @project.rake_task = 'foo'
-    assert_raise_with_message(RuntimeError, "Cannot set build_command when rake_task is already defined") do
+    assert_raise_with_message(RuntimeError, /Cannot set build_command when rake_task is already defined/, "") do
       @project.build_command = 'foo'
     end
 
     @project.rake_task = nil
     @project.build_command = 'foo'
-    assert_raise_with_message(RuntimeError, "Cannot set rake_task when build_command is already defined") do
+    assert_raise_with_message(RuntimeError, /Cannot set rake_task when build_command is already defined/, "") do
       @project.rake_task = 'foo'
     end
   end
@@ -343,7 +343,7 @@ class ProjectTest < ActiveSupport::TestCase
     
     plugin.expects(:hey_you).raises("Plugin talking")
     
-    assert_raise_with_message(RuntimeError, "Error in plugin Object: Plugin talking") do
+    assert_raise_with_message(RuntimeError, /Error in plugin Object: Plugin talking/, "") do
       @project.notify(:hey_you)
     end
   end
@@ -358,7 +358,7 @@ class ProjectTest < ActiveSupport::TestCase
     plugin1.expects(:hey_you).raises("Plugin 1 talking")
     plugin2.expects(:hey_you).raises("Plugin 2 talking")
 
-    assert_raise_with_message(RuntimeError, "Errors in plugins:\n  Object: Plugin 1 talking\n  Object: Plugin 2 talking") do
+    assert_raise_with_message(RuntimeError, /Errors in plugins:\n  Object: Plugin 1 talking\n  Object: Plugin 2 talking/, "") do
       @project.notify(:hey_you)
     end
   end
